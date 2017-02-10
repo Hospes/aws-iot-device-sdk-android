@@ -1,0 +1,115 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName rootProject.ext.libVersion
+
+        archivesBaseName = 'aws-iot-device-sdk-android'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.fasterxml.jackson.core:jackson-core:2.8.6'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
+    compile 'org.projectlombok:lombok:1.16.14'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3.test:1.1.0'
+    compile 'javax.annotation:javax.annotation-api:1.3'
+}
+
+def siteUrl = 'https://github.com/Hospes/aws-iot-device-sdk-android'      // Homepage URL of the library
+def gitUrl = 'https://github.com/Hospes/aws-iot-device-sdk-android.git'   // Git repository URL
+group = rootProject.ext.libGroup                                          // Maven Group ID for the artifact
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                name rootProject.ext.libPackageName
+                description = rootProject.ext.libDescription
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'hospes'
+                        name 'Andrew Khloponin'
+                        email 'hospes.a@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def bintrayUser = properties.getProperty('bintray.user')
+def bintrayApiKey = properties.getProperty('bintray.apikey')
+
+bintray {
+    user = bintrayUser != null ? bintrayUser : System.getenv('BINTRAY_USER')
+    key = bintrayApiKey != null ? bintrayApiKey : System.getenv('BINTRAY_API_KEY')
+    configurations = ['archives']
+
+    pkg {
+        repo = 'maven'
+        name = rootProject.ext.libPackageName
+        licenses = ['Apache-2.0']
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+
+        version {
+            name = rootProject.ext.libVersion
+            desc = rootProject.ext.libDescription
+            released = new Date()
+        }
+    }
+}
