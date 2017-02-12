@@ -2,6 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
+group = rootProject.ext.libGroup
+version = rootProject.ext.libVersion
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -10,7 +13,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName '0.1'
+        versionName version
 
         archivesBaseName = 'aws-iot-device-sdk-android'
     }
@@ -35,10 +38,8 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.8.6'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
-    compile 'javax.annotation:javax.annotation-api:1.3'
+    compile 'javax.annotation:javax.annotation-api:1.2'
 }
-
-group = rootProject.ext.libGroup                                          // Maven Group ID for the artifact
 
 install {
     repositories.mavenInstaller {
@@ -115,7 +116,7 @@ bintray {
         labels = ['android', 'aws-iot', 'aws-sdk']
 
         version {
-            name = '0.1'
+            name = rootProject.ext.libVersion
             desc = rootProject.ext.libDescription
             released = new Date()
         }
