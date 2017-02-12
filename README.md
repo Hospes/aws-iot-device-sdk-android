@@ -42,10 +42,6 @@ You'll find the API documentation for the SDK [here][api-docs].
 This SDK is distributed under the [Apache License, Version 2.0][apache-license-2]. For more information, see
 LICENSE.txt and NOTICE.txt.
 
-## Support
-If you have technical questions about the AWS IoT Device SDK, use the [AWS IoT Forum][aws-iot-forum].
-For any other questions about AWS IoT, contact [AWS Support][aws-support].
-
 [aws-iot-protocol]: http://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
 [aws-iot-thing]: http://docs.aws.amazon.com/iot/latest/developerguide/iot-thing-shadows.html
 [aws-iot-forum]: https://forums.aws.amazon.com/forum.jspa?forumID=210
