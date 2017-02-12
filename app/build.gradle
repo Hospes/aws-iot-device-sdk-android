@@ -10,7 +10,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName rootProject.ext.libVersion
+        versionName '0.1'
 
         archivesBaseName = 'aws-iot-device-sdk-android'
     }
@@ -19,6 +19,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     lintOptions {
@@ -33,8 +38,6 @@ dependencies {
     compile 'javax.annotation:javax.annotation-api:1.3'
 }
 
-def siteUrl = 'https://github.com/Hospes/aws-iot-device-sdk-android'      // Homepage URL of the library
-def gitUrl = 'https://github.com/Hospes/aws-iot-device-sdk-android.git'   // Git repository URL
 group = rootProject.ext.libGroup                                          // Maven Group ID for the artifact
 
 install {
@@ -47,7 +50,7 @@ install {
                 // Add your description here
                 name rootProject.ext.libPackageName
                 description = rootProject.ext.libDescription
-                url siteUrl
+                url rootProject.ext.libSiteUrl
 
                 // Set your license
                 licenses {
@@ -64,9 +67,9 @@ install {
                     }
                 }
                 scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
+                    connection rootProject.ext.libGitUrl
+                    developerConnection rootProject.ext.libGitUrl
+                    url rootProject.ext.libSiteUrl
                 }
             }
         }
@@ -106,11 +109,13 @@ bintray {
         repo = 'maven'
         name = rootProject.ext.libPackageName
         licenses = ['Apache-2.0']
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
+        websiteUrl = rootProject.ext.libSiteUrl
+        issueTrackerUrl = rootProject.ext.libIssueTrackerUrl
+        vcsUrl = rootProject.ext.libGitUrl
+        labels = ['android', 'aws-iot', 'aws-sdk']
 
         version {
-            name = rootProject.ext.libVersion
+            name = '0.1'
             desc = rootProject.ext.libDescription
             released = new Date()
         }

@@ -20,14 +20,17 @@ ext {
     targetSdkVersion = 25
 
     compileSdkVersion = 25
-    buildToolsVersion = "25.0.2"
+    buildToolsVersion = '25.0.2'
 
-    supportLibVersion = "25.1.1"
+    supportLibVersion = '25.1.1'
 
-    libVersion = "0.1"
-    libGroup = "ua.hospes.aws"
-    libPackageName = "ua.hospes.aws:aws-iot-device-sdk-android"
-    libDescription = "Abstract RecyclerView Adapter"
+    libGroup = 'ua.hospes.aws'
+    libPackageName = 'ua.hospes.aws:aws-iot-device-sdk-android'
+    libDescription = 'Android adaptation of Java SDK for connecting to AWS IoT from a device.'
+
+    libSiteUrl = 'https://github.com/Hospes/aws-iot-device-sdk-android'
+    libIssueTrackerUrl = 'https://github.com/Hospes/aws-iot-device-sdk-android/issues'
+    libGitUrl = 'https://github.com/Hospes/aws-iot-device-sdk-android.git'
 }
 
 task clean(type: Delete) {
