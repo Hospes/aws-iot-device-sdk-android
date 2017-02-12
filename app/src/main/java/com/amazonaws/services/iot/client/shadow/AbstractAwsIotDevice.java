@@ -15,19 +15,6 @@
 
 package com.amazonaws.services.iot.client.shadow;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.amazonaws.services.iot.client.AWSIotConfig;
 import com.amazonaws.services.iot.client.AWSIotDevice;
 import com.amazonaws.services.iot.client.AWSIotDeviceProperty;
@@ -43,16 +30,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The actual implementation of {@link AWSIotDevice}.
  */
-@Getter
-@Setter
 public abstract class AbstractAwsIotDevice {
-
     private static final Logger LOGGER = Logger.getLogger(AbstractAwsIotDevice.class.getName());
 
     protected final String thingName;
@@ -74,6 +68,7 @@ public abstract class AbstractAwsIotDevice {
     private Future<?> syncTask;
     private AtomicLong localVersion;
 
+
     protected AbstractAwsIotDevice(String thingName) {
         this.thingName = thingName;
 
@@ -93,6 +88,7 @@ public abstract class AbstractAwsIotDevice {
 
         localVersion = new AtomicLong(-1);
     }
+
 
     protected AbstractAwsIotDevice getDevice() {
         return this;
@@ -229,7 +225,7 @@ public abstract class AbstractAwsIotDevice {
                     LOGGER.fine("Device not ready for reporting");
                     return;
                 }
-                
+
                 long reportVersion = localVersion.get();
                 if (enableVersioning && reportVersion < 0) {
                     // if versioning is enabled, synchronize the version first
@@ -326,4 +322,85 @@ public abstract class AbstractAwsIotDevice {
         return topics;
     }
 
+
+    //region Getters
+    public String getThingName() {
+        return thingName;
+    }
+
+    public AbstractAwsIotClient getClient() {
+        return client;
+    }
+
+    public AtomicLong getLocalVersion() {
+        return localVersion;
+    }
+
+    public Map<String, Field> getReportedProperties() {
+        return reportedProperties;
+    }
+
+    public ObjectMapper getJsonObjectMapper() {
+        return jsonObjectMapper;
+    }
+
+    public Map<String, Field> getUpdatableProperties() {
+        return updatableProperties;
+    }
+
+
+    public long getReportInterval() {
+        return reportInterval;
+    }
+
+    public boolean isEnableVersioning() {
+        return enableVersioning;
+    }
+
+    public AWSIotQos getDeviceReportQos() {
+        return deviceReportQos;
+    }
+
+    public AWSIotQos getShadowUpdateQos() {
+        return shadowUpdateQos;
+    }
+
+    public AWSIotQos getMethodQos() {
+        return methodQos;
+    }
+
+    public AWSIotQos getMethodAckQos() {
+        return methodAckQos;
+    }
+    //endregion
+
+    //region Setters
+    public void setClient(AbstractAwsIotClient client) {
+        this.client = client;
+    }
+
+    public void setReportInterval(long reportInterval) {
+        this.reportInterval = reportInterval;
+    }
+
+    public void setEnableVersioning(boolean enableVersioning) {
+        this.enableVersioning = enableVersioning;
+    }
+
+    public void setDeviceReportQos(AWSIotQos deviceReportQos) {
+        this.deviceReportQos = deviceReportQos;
+    }
+
+    public void setShadowUpdateQos(AWSIotQos shadowUpdateQos) {
+        this.shadowUpdateQos = shadowUpdateQos;
+    }
+
+    public void setMethodQos(AWSIotQos methodQos) {
+        this.methodQos = methodQos;
+    }
+
+    public void setMethodAckQos(AWSIotQos methodAckQos) {
+        this.methodAckQos = methodAckQos;
+    }
+    //endregion
 }

@@ -15,30 +15,23 @@
 
 package com.amazonaws.services.iot.client.shadow;
 
-import java.util.logging.Logger;
-
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMessage;
 import com.amazonaws.services.iot.client.AWSIotTimeoutException;
 import com.amazonaws.services.iot.client.core.AwsIotCompletion;
 import com.amazonaws.services.iot.client.shadow.AwsIotDeviceCommandManager.Command;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.logging.Logger;
 
 /**
  * This is a helper class that can be used to manage the execution result of a
  * shadow command, i.e. get, update, and delete. It makes sure that the command
  * is not published until the subscription requests for the acknowledgment
  * topics, namely accepted and rejected, have completed successfully.
- * 
+ *
  * @see com.amazonaws.services.iot.client.core.AwsIotCompletion
  */
-@Getter
-@Setter
 public class AwsIotDeviceCommand extends AwsIotCompletion {
-
     private static final Logger LOGGER = Logger.getLogger(AwsIotDeviceCommand.class.getName());
 
     private final AwsIotDeviceCommandManager commandManager;
@@ -47,17 +40,17 @@ public class AwsIotDeviceCommand extends AwsIotCompletion {
 
     private AWSIotMessage response;
 
-    @Setter(AccessLevel.NONE)
     private Boolean requestSent;
 
-    public AwsIotDeviceCommand(AwsIotDeviceCommandManager commandManager, Command command, String commandId,
-            AWSIotMessage request, long commandTimeout, boolean isAsync) {
+
+    public AwsIotDeviceCommand(AwsIotDeviceCommandManager commandManager, Command command, String commandId, AWSIotMessage request, long commandTimeout, boolean isAsync) {
         super(request, commandTimeout, isAsync);
         this.commandManager = commandManager;
         this.command = command;
         this.commandId = commandId;
         this.requestSent = false;
     }
+
 
     public void put(AbstractAwsIotDevice device) throws AWSIotException {
         if (device.isCommandReady(command)) {
@@ -118,4 +111,20 @@ public class AwsIotDeviceCommand extends AwsIotCompletion {
         device.getClient().publish(this, timeout);
     }
 
+
+    //region Getters
+    public Command getCommand() {
+        return command;
+    }
+
+    public String getCommandId() {
+        return commandId;
+    }
+    //endregion
+
+    //region Setters
+    public void setResponse(AWSIotMessage response) {
+        this.response = response;
+    }
+    //endregion
 }

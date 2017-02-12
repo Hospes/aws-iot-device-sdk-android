@@ -15,17 +15,6 @@
 
 package com.amazonaws.services.iot.client.mqtt;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.net.SocketFactory;
-
-import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMessage;
 import com.amazonaws.services.iot.client.core.AbstractAwsIotClient;
@@ -33,25 +22,30 @@ import com.amazonaws.services.iot.client.core.AwsIotConnection;
 import com.amazonaws.services.iot.client.core.AwsIotMessageCallback;
 import com.amazonaws.services.iot.client.core.AwsIotRetryableException;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.net.SocketFactory;
 
 /**
  * This class extends {@link AwsIotConnection} to provide the basic MQTT pub/sub
  * functionalities using the Paho MQTT library.
  */
-@Getter
-@Setter
 public class AwsIotMqttConnection extends AwsIotConnection {
-
     private final SocketFactory socketFactory;
 
     private MqttAsyncClient mqttClient;
     private AwsIotMqttMessageListener messageListener;
     private AwsIotMqttClientListener clientListener;
 
-    public AwsIotMqttConnection(AbstractAwsIotClient client, SocketFactory socketFactory, String serverUri)
-            throws AWSIotException {
+
+    public AwsIotMqttConnection(AbstractAwsIotClient client, SocketFactory socketFactory, String serverUri) throws AWSIotException {
         super(client);
 
         this.socketFactory = socketFactory;
@@ -72,6 +66,7 @@ public class AwsIotMqttConnection extends AwsIotConnection {
         this.mqttClient = mqttClient;
         this.socketFactory = null;
     }
+
 
     public void openConnection(AwsIotMessageCallback callback) throws AWSIotException {
         try {
@@ -163,4 +158,35 @@ public class AwsIotMqttConnection extends AwsIotConnection {
         return options;
     }
 
+    //region Getters
+    public SocketFactory getSocketFactory() {
+        return socketFactory;
+    }
+
+    public MqttAsyncClient getMqttClient() {
+        return mqttClient;
+    }
+
+    public AwsIotMqttMessageListener getMessageListener() {
+        return messageListener;
+    }
+
+    public AwsIotMqttClientListener getClientListener() {
+        return clientListener;
+    }
+    //endregion
+
+    //region Setters
+    public void setMqttClient(MqttAsyncClient mqttClient) {
+        this.mqttClient = mqttClient;
+    }
+
+    public void setMessageListener(AwsIotMqttMessageListener messageListener) {
+        this.messageListener = messageListener;
+    }
+
+    public void setClientListener(AwsIotMqttClientListener clientListener) {
+        this.clientListener = clientListener;
+    }
+    //endregion
 }

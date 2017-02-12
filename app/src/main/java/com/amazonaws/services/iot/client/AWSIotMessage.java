@@ -15,13 +15,10 @@
 
 package com.amazonaws.services.iot.client;
 
-import java.io.UnsupportedEncodingException;
-
 import com.amazonaws.services.iot.client.core.AwsIotMessageCallback;
 import com.amazonaws.services.iot.client.core.AwsIotRuntimeException;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.UnsupportedEncodingException;
 
 /**
  * A common data structure that is used in a lot of non-blocking APIs in this
@@ -38,15 +35,12 @@ import lombok.Setter;
  * class or its child classes, such as {@link AWSIotTopic}.
  */
 public class AWSIotMessage implements AwsIotMessageCallback {
-
     /**
      * The topic the message is received from or published to.
      *
      * @param topic the new topic of the message
      * @return the current topic of the message
      */
-    @Getter
-    @Setter
     protected String topic;
 
     /**
@@ -55,8 +49,6 @@ public class AWSIotMessage implements AwsIotMessageCallback {
      * @param qos the new QoS level
      * @return the current QoS level
      */
-    @Getter
-    @Setter
     protected AWSIotQos qos;
 
     /**
@@ -71,8 +63,6 @@ public class AWSIotMessage implements AwsIotMessageCallback {
      * @param errorCode the new error code for the shadow method
      * @return the current error code of the shadow method
      */
-    @Getter
-    @Setter
     protected AWSIotDeviceErrorCode errorCode;
 
     /**
@@ -82,17 +72,13 @@ public class AWSIotMessage implements AwsIotMessageCallback {
      * @param errorMessage the new error message for the shadow method
      * @return the current error message of the shadow method
      */
-    @Getter
-    @Setter
     protected String errorMessage;
 
     /**
      * Instantiates a new message object.
      *
-     * @param topic
-     *            the topic of the message
-     * @param qos
-     *            the QoS level of the message
+     * @param topic the topic of the message
+     * @param qos   the QoS level of the message
      */
     public AWSIotMessage(String topic, AWSIotQos qos) {
         this.topic = topic;
@@ -102,12 +88,9 @@ public class AWSIotMessage implements AwsIotMessageCallback {
     /**
      * Instantiates a new message object.
      *
-     * @param topic
-     *            the topic of the message
-     * @param qos
-     *            the QoS level of the message
-     * @param payload
-     *            the payload of the message
+     * @param topic   the topic of the message
+     * @param qos     the QoS level of the message
+     * @param payload the payload of the message
      */
     public AWSIotMessage(String topic, AWSIotQos qos, byte[] payload) {
         this.topic = topic;
@@ -118,12 +101,9 @@ public class AWSIotMessage implements AwsIotMessageCallback {
     /**
      * Instantiates a new message object.
      *
-     * @param topic
-     *            the topic of the message
-     * @param qos
-     *            the QoS level of the message
-     * @param payload
-     *            the payload of the message
+     * @param topic   the topic of the message
+     * @param qos     the QoS level of the message
+     * @param payload the payload of the message
      */
     public AWSIotMessage(String topic, AWSIotQos qos, String payload) {
         this.topic = topic;
@@ -147,8 +127,7 @@ public class AWSIotMessage implements AwsIotMessageCallback {
     /**
      * Sets the byte array payload.
      *
-     * @param payload
-     *            the new byte array payload
+     * @param payload the new byte array payload
      */
     public void setPayload(byte[] payload) {
         if (payload == null) {
@@ -181,8 +160,7 @@ public class AWSIotMessage implements AwsIotMessageCallback {
     /**
      * Sets the string payload.
      *
-     * @param payload
-     *            the new string payload
+     * @param payload the new string payload
      */
     public void setStringPayload(String payload) {
         if (payload == null) {
@@ -223,4 +201,38 @@ public class AWSIotMessage implements AwsIotMessageCallback {
         // Default callback implementation is no-op
     }
 
+
+    //region Getters and Setters
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public AWSIotQos getQos() {
+        return qos;
+    }
+
+    public void setQos(AWSIotQos qos) {
+        this.qos = qos;
+    }
+
+    public AWSIotDeviceErrorCode getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(AWSIotDeviceErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+    //endregion
 }

@@ -15,9 +15,9 @@
 
 package com.amazonaws.services.iot.client;
 
-import java.security.KeyStore;
-
 import com.amazonaws.services.iot.client.core.AbstractAwsIotClient;
+
+import java.security.KeyStore;
 
 /**
  * This class is the main interface of the AWS IoT Java library. It provides
@@ -56,13 +56,13 @@ import com.amazonaws.services.iot.client.core.AbstractAwsIotClient;
  * methods in this class are thread-safe, publish and subscribe can be called
  * from different threads.
  * </p>
- * 
+ *
  * <pre>
  * {@code
  *     AWSIotMqttClient client = new AWSIotMqttClient(...);
- *     
+ *
  *     client.connect();
- *     
+ *
  *     ...
  *     client.subscribe(topic, ...)
  *     ...
@@ -81,15 +81,15 @@ import com.amazonaws.services.iot.client.core.AbstractAwsIotClient;
  * provides methods for accessing device shadows directly. Please refer to
  * {@link AWSIotDevice} for more details. A typical flow would be like below.
  * </p>
- * 
+ *
  * <pre>
  * {@code
  *     AWSIotMqttClient client = new AWSIotMqttClient(...);
- *     
+ *
  *     SomeDevice someDevice = new SomeDevice(thingName);    // SomeDevice extends AWSIotDevice
- *     
+ *
  *     client.attach(someDevice);
- *     
+ *
  *     client.connect();
  * }
  * </pre>
@@ -99,32 +99,27 @@ import com.amazonaws.services.iot.client.core.AbstractAwsIotClient;
  * </p>
  */
 public class AWSIotMqttClient extends AbstractAwsIotClient {
-
     /**
      * Instantiates a new client using TLS 1.2 mutual authentication. Client
      * certificate and private key are passed in through the {@link KeyStore}
      * argument. The key password protecting the private key in the
      * {@link KeyStore} is also required.
      *
-     * @param clientEndpoint
-     *            the client endpoint in the form of {@code <account-specific
-     *            prefix>.iot.<aws-region>.amazonaws.com}. The account-specific
-     *            prefix can be found on the AWS IoT console or by using the
-     *            {@code describe-endpoint} command through the AWS command line
-     *            interface.
-     * @param clientId
-     *            the client ID uniquely identify a MQTT connection. Two clients
-     *            with the same client ID are not allowed to be connected
-     *            concurrently to a same endpoint.
-     * @param keyStore
-     *            the key store containing the client X.509 certificate and
-     *            private key. The {@link KeyStore} object can be constructed
-     *            using X.509 certificate file and private key file created on
-     *            the AWS IoT console. For more details, please refer to the
-     *            README file of this SDK.
-     * @param keyPassword
-     *            the key password protecting the private key in the
-     *            {@code keyStore} argument.
+     * @param clientEndpoint the client endpoint in the form of {@code <account-specific
+     *                       prefix>.iot.<aws-region>.amazonaws.com}. The account-specific
+     *                       prefix can be found on the AWS IoT console or by using the
+     *                       {@code describe-endpoint} command through the AWS command line
+     *                       interface.
+     * @param clientId       the client ID uniquely identify a MQTT connection. Two clients
+     *                       with the same client ID are not allowed to be connected
+     *                       concurrently to a same endpoint.
+     * @param keyStore       the key store containing the client X.509 certificate and
+     *                       private key. The {@link KeyStore} object can be constructed
+     *                       using X.509 certificate file and private key file created on
+     *                       the AWS IoT console. For more details, please refer to the
+     *                       README file of this SDK.
+     * @param keyPassword    the key password protecting the private key in the
+     *                       {@code keyStore} argument.
      */
     public AWSIotMqttClient(String clientEndpoint, String clientId, KeyStore keyStore, String keyPassword) {
         super(clientEndpoint, clientId, keyStore, keyPassword);
@@ -137,20 +132,16 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * be permanent ones associated with IAM users or temporary ones generated
      * via the AWS Cognito service.
      *
-     * @param clientEndpoint
-     *            the client endpoint in the form of
-     *            {@literal <account-specific-prefix>.iot.<region>.amazonaws.com}
-     *            . The account-specific prefix can be found on the AWS IoT
-     *            console or by using the {@code describe-endpoint} command
-     *            through the AWS command line interface.
-     * @param clientId
-     *            the client ID uniquely identify a MQTT connection. Two clients
-     *            with the same client ID are not allowed to be connected
-     *            concurrently to a same endpoint.
-     * @param awsAccessKeyId
-     *            the AWS access key id
-     * @param awsSecretAccessKey
-     *            the AWS secret access key
+     * @param clientEndpoint     the client endpoint in the form of
+     *                           {@literal <account-specific-prefix>.iot.<region>.amazonaws.com}
+     *                           . The account-specific prefix can be found on the AWS IoT
+     *                           console or by using the {@code describe-endpoint} command
+     *                           through the AWS command line interface.
+     * @param clientId           the client ID uniquely identify a MQTT connection. Two clients
+     *                           with the same client ID are not allowed to be connected
+     *                           concurrently to a same endpoint.
+     * @param awsAccessKeyId     the AWS access key id
+     * @param awsSecretAccessKey the AWS secret access key
      */
     public AWSIotMqttClient(String clientEndpoint, String clientId, String awsAccessKeyId, String awsSecretAccessKey) {
         super(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey, null);
@@ -163,28 +154,23 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * be permanent ones associated with IAM users or temporary ones generated
      * via the AWS Cognito service.
      *
-     * @param clientEndpoint
-     *            the client endpoint in the form of
-     *            {@literal <account-specific-prefix>.iot.<region>.amazonaws.com}
-     *            . The account-specific prefix can be found on the AWS IoT
-     *            console or by using the {@code describe-endpoint} command
-     *            through the AWS command line interface.
-     * @param clientId
-     *            the client ID uniquely identify a MQTT connection. Two clients
-     *            with the same client ID are not allowed to be connected
-     *            concurrently to a same endpoint.
-     * @param awsAccessKeyId
-     *            the AWS access key id
-     * @param awsSecretAccessKey
-     *            the AWS secret access key
-     * @param sessionToken
-     *            Session token received along with the temporary credentials
-     *            from services like STS server, AssumeRole, or Amazon Cognito.
+     * @param clientEndpoint     the client endpoint in the form of
+     *                           {@literal <account-specific-prefix>.iot.<region>.amazonaws.com}
+     *                           . The account-specific prefix can be found on the AWS IoT
+     *                           console or by using the {@code describe-endpoint} command
+     *                           through the AWS command line interface.
+     * @param clientId           the client ID uniquely identify a MQTT connection. Two clients
+     *                           with the same client ID are not allowed to be connected
+     *                           concurrently to a same endpoint.
+     * @param awsAccessKeyId     the AWS access key id
+     * @param awsSecretAccessKey the AWS secret access key
+     * @param sessionToken       Session token received along with the temporary credentials
+     *                           from services like STS server, AssumeRole, or Amazon Cognito.
      */
-    public AWSIotMqttClient(String clientEndpoint, String clientId, String awsAccessKeyId, String awsSecretAccessKey,
-            String sessionToken) {
+    public AWSIotMqttClient(String clientEndpoint, String clientId, String awsAccessKeyId, String awsSecretAccessKey, String sessionToken) {
         super(clientEndpoint, clientId, awsAccessKeyId, awsSecretAccessKey, sessionToken);
     }
+
 
     /**
      * Updates credentials used for signing Secure WebSocket URLs. When temporary
@@ -192,13 +178,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * credentails can be supplied through this API to allow new connections to
      * be reestablished using the new credentails.
      *
-     * @param awsAccessKeyId
-     *            the AWS access key id
-     * @param awsSecretAccessKey
-     *            the AWS secret access key
-     * @param sessionToken
-     *            Session token received along with the temporary credentials
-     *            from services like STS server, AssumeRole, or Amazon Cognito.
+     * @param awsAccessKeyId     the AWS access key id
+     * @param awsSecretAccessKey the AWS secret access key
+     * @param sessionToken       Session token received along with the temporary credentials
+     *                           from services like STS server, AssumeRole, or Amazon Cognito.
      */
     @Override
     public void updateCredentials(String awsAccessKeyId, String awsSecretAccessKey, String sessionToken) {
@@ -222,8 +205,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * Sets a new value for the number of client threads. This value must be set
      * before {@link #connect()} is called.
      *
-     * @param numOfClientThreads
-     *            the new number of client threads. The default value is 1.
+     * @param numOfClientThreads the new number of client threads. The default value is 1.
      */
     @Override
     public void setNumOfClientThreads(int numOfClientThreads) {
@@ -246,8 +228,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * Sets a new value in milliseconds for the connection timeout. This value
      * must be set before {@link #connect()} is called.
      *
-     * @param connectionTimeout
-     *            the new connection timeout. The default value is 30,000ms.
+     * @param connectionTimeout the new connection timeout. The default value is 30,000ms.
      */
     @Override
     public void setConnectionTimeout(int connectionTimeout) {
@@ -273,8 +254,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * set before {@link #connect()} is called. Setting it to 0 will disable the
      * connection retry function.
      *
-     * @param maxConnectionRetries
-     *            the new max connection retries. The default value is 5.
+     * @param maxConnectionRetries the new max connection retries. The default value is 5.
      */
     @Override
     public void setMaxConnectionRetries(int maxConnectionRetries) {
@@ -299,8 +279,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * Sets a new value in milliseconds for the base retry delay. This value
      * must be set before {@link #connect()} is called.
      *
-     * @param baseRetryDelay
-     *            the new base retry delay. The default value is 3,000ms.
+     * @param baseRetryDelay the new base retry delay. The default value is 3,000ms.
      */
     @Override
     public void setBaseRetryDelay(int baseRetryDelay) {
@@ -326,8 +305,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * Sets a new value in milliseconds for the maximum retry delay. This value
      * must be set before {@link #connect()} is called.
      *
-     * @param maxRetryDelay
-     *            the new max retry delay. The default value is 30,000ms.
+     * @param maxRetryDelay the new max retry delay. The default value is 30,000ms.
      */
     @Override
     public void setMaxRetryDelay(int maxRetryDelay) {
@@ -353,9 +331,8 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * Sets a new value in milliseconds for the default server acknowledge
      * timeout. This value must be set before {@link #connect()} is called.
      *
-     * @param serverAckTimeout
-     *            the new server acknowledge timeout. The default value is
-     *            3,000ms.
+     * @param serverAckTimeout the new server acknowledge timeout. The default value is
+     *                         3,000ms.
      */
     @Override
     public void setServerAckTimeout(int serverAckTimeout) {
@@ -379,8 +356,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * This value must be set before {@link #connect()} is called. Setting this
      * value to 0 will disable the keep-alive function.
      *
-     * @param keepAliveInterval
-     *            the new keep alive interval. The default value is 30,000ms.
+     * @param keepAliveInterval the new keep alive interval. The default value is 30,000ms.
      */
     @Override
     public void setKeepAliveInterval(int keepAliveInterval) {
@@ -410,8 +386,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * set before {@link #connect()} is called. Setting it to 0 will disable the
      * offline queues.
      *
-     * @param maxOfflineQueueSize
-     *            the new maximum offline queue size. The default value is 64.
+     * @param maxOfflineQueueSize the new maximum offline queue size. The default value is 64.
      */
     @Override
     public void setMaxOfflineQueueSize(int maxOfflineQueueSize) {
@@ -436,9 +411,8 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * before {@link #connect()} is called. By default, Last Will and Testament
      * message is not sent.
      *
-     * @param willMessage
-     *            the new Last Will and Testament message message. The default
-     *            value is {@code null}.
+     * @param willMessage the new Last Will and Testament message message. The default
+     *                    value is {@code null}.
      */
     @Override
     public void setWillMessage(AWSIotMessage willMessage) {
@@ -455,8 +429,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @throws AWSIotException
-     *             exception thrown if the connection operation fails
+     * @throws AWSIotException exception thrown if the connection operation fails
      */
     @Override
     public void connect() throws AWSIotException {
@@ -468,12 +441,9 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * thread will be blocked until the operation succeeded, failed, or timed
      * out.
      *
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @throws AWSIotException
-     *             exception thrown if the operation fails
-     * @throws AWSIotTimeoutException
-     *             exception thrown if the operation times out
+     * @param timeout the timeout in milliseconds that the calling thread will wait
+     * @throws AWSIotException        exception thrown if the operation fails
+     * @throws AWSIotTimeoutException exception thrown if the operation times out
      */
     @Override
     public void connect(long timeout) throws AWSIotException, AWSIotTimeoutException {
@@ -487,14 +457,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * failed, or timed out; for non-blocking calls, the calling thread will not
      * be blocked while the connection is being established.
      *
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @param blocking
-     *            whether the call should be blocking or non-blocking
-     * @throws AWSIotException
-     *             exception thrown if the operation fails
-     * @throws AWSIotTimeoutException
-     *             exception thrown if the operation times out
+     * @param timeout  the timeout in milliseconds that the calling thread will wait
+     * @param blocking whether the call should be blocking or non-blocking
+     * @throws AWSIotException        exception thrown if the operation fails
+     * @throws AWSIotTimeoutException exception thrown if the operation times out
      */
     @Override
     public void connect(long timeout, boolean blocking) throws AWSIotException, AWSIotTimeoutException {
@@ -511,8 +477,7 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @throws AWSIotException
-     *             exception thrown if the operation fails
+     * @throws AWSIotException exception thrown if the operation fails
      */
     @Override
     public void disconnect() throws AWSIotException {
@@ -524,12 +489,9 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * calling thread will be blocked until the operation succeeded, failed, or
      * timed out.
      *
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @throws AWSIotException
-     *             exception thrown if the operation fails
-     * @throws AWSIotTimeoutException
-     *             exception thrown if the operation times out
+     * @param timeout the timeout in milliseconds that the calling thread will wait
+     * @throws AWSIotException        exception thrown if the operation fails
+     * @throws AWSIotTimeoutException exception thrown if the operation times out
      */
     @Override
     public void disconnect(long timeout) throws AWSIotException, AWSIotTimeoutException {
@@ -543,14 +505,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * failed, or timed out; for non-blocking calls, the calling thread will not
      * be blocked while the connection is being terminated.
      *
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @param blocking
-     *            whether the call should be blocking or non-blocking
-     * @throws AWSIotException
-     *             exception thrown if the operation fails
-     * @throws AWSIotTimeoutException
-     *             exception thrown if the operation times out
+     * @param timeout  the timeout in milliseconds that the calling thread will wait
+     * @param blocking whether the call should be blocking or non-blocking
+     * @throws AWSIotException        exception thrown if the operation fails
+     * @throws AWSIotTimeoutException exception thrown if the operation times out
      */
     @Override
     public void disconnect(long timeout, boolean blocking) throws AWSIotException, AWSIotTimeoutException {
@@ -568,12 +526,9 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @param topic
-     *            the topic to be published to
-     * @param payload
-     *            the payload to be published
-     * @throws AWSIotException
-     *             exception thrown if the publish operation fails
+     * @param topic   the topic to be published to
+     * @param payload the payload to be published
+     * @throws AWSIotException exception thrown if the publish operation fails
      */
     @Override
     public void publish(String topic, String payload) throws AWSIotException {
@@ -586,16 +541,11 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * or the specified timeout has elapsed. MQTT QoS0 is used for publishing
      * the payload.
      *
-     * @param topic
-     *            the topic to be published to
-     * @param payload
-     *            the payload to be published
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails
-     * @throws AWSIotTimeoutException
-     *             the exception thrown if the publish operation times out
+     * @param topic   the topic to be published to
+     * @param payload the payload to be published
+     * @param timeout the timeout in milliseconds that the calling thread will wait
+     * @throws AWSIotException        the exception thrown if the publish operation fails
+     * @throws AWSIotTimeoutException the exception thrown if the publish operation times out
      */
     @Override
     public void publish(String topic, String payload, long timeout) throws AWSIotException, AWSIotTimeoutException {
@@ -613,14 +563,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @param topic
-     *            the topic to be published to
-     * @param qos
-     *            the MQTT QoS used for publishing
-     * @param payload
-     *            the payload to be published
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails
+     * @param topic   the topic to be published to
+     * @param qos     the MQTT QoS used for publishing
+     * @param payload the payload to be published
+     * @throws AWSIotException the exception thrown if the publish operation fails
      */
     @Override
     public void publish(String topic, AWSIotQos qos, String payload) throws AWSIotException {
@@ -632,18 +578,12 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * calling thread is blocked until the publish operation succeeded, failed,
      * or the specified timeout has elapsed.
      *
-     * @param topic
-     *            the topic to be published to
-     * @param qos
-     *            the MQTT QoS used for publishing
-     * @param payload
-     *            the payload to be published
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails
-     * @throws AWSIotTimeoutException
-     *             the exception thrown if the publish operation times out
+     * @param topic   the topic to be published to
+     * @param qos     the MQTT QoS used for publishing
+     * @param payload the payload to be published
+     * @param timeout the timeout in milliseconds that the calling thread will wait
+     * @throws AWSIotException        the exception thrown if the publish operation fails
+     * @throws AWSIotTimeoutException the exception thrown if the publish operation times out
      */
     @Override
     public void publish(String topic, AWSIotQos qos, String payload, long timeout) throws AWSIotException,
@@ -662,12 +602,9 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @param topic
-     *            the topic to be published to
-     * @param payload
-     *            the payload to be published
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails
+     * @param topic   the topic to be published to
+     * @param payload the payload to be published
+     * @throws AWSIotException the exception thrown if the publish operation fails
      */
     @Override
     public void publish(String topic, byte[] payload) throws AWSIotException {
@@ -680,16 +617,11 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * failed, or the specified timeout has elapsed. MQTT QoS0 is used for
      * publishing the payload.
      *
-     * @param topic
-     *            the topic to be published to
-     * @param payload
-     *            the payload to be published
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails
-     * @throws AWSIotTimeoutException
-     *             the exception thrown if the publish operation times out
+     * @param topic   the topic to be published to
+     * @param payload the payload to be published
+     * @param timeout the timeout in milliseconds that the calling thread will wait
+     * @throws AWSIotException        the exception thrown if the publish operation fails
+     * @throws AWSIotTimeoutException the exception thrown if the publish operation times out
      */
     @Override
     public void publish(String topic, byte[] payload, long timeout) throws AWSIotException, AWSIotTimeoutException {
@@ -707,14 +639,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @param topic
-     *            the topic to be published to
-     * @param qos
-     *            the MQTT QoS used for publishing
-     * @param payload
-     *            the payload to be published
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails
+     * @param topic   the topic to be published to
+     * @param qos     the MQTT QoS used for publishing
+     * @param payload the payload to be published
+     * @throws AWSIotException the exception thrown if the publish operation fails
      */
     @Override
     public void publish(String topic, AWSIotQos qos, byte[] payload) throws AWSIotException {
@@ -726,18 +654,12 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * the calling thread is blocked until the publish operation is succeeded,
      * failed, or the specified timeout has elapsed.
      *
-     * @param topic
-     *            the topic to be published to
-     * @param qos
-     *            the MQTT QoS used for publishing
-     * @param payload
-     *            the payload to be published
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails
-     * @throws AWSIotTimeoutException
-     *             the exception thrown if the publish operation times out
+     * @param topic   the topic to be published to
+     * @param qos     the MQTT QoS used for publishing
+     * @param payload the payload to be published
+     * @param timeout the timeout in milliseconds that the calling thread will wait
+     * @throws AWSIotException        the exception thrown if the publish operation fails
+     * @throws AWSIotTimeoutException the exception thrown if the publish operation times out
      */
     @Override
     public void publish(String topic, AWSIotQos qos, byte[] payload, long timeout) throws AWSIotException,
@@ -756,12 +678,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * for the callback functions in {@link AWSIotMessage} does nothing. The
      * user could override one or more of these functions through subclassing.
      *
-     * @param message
-     *            the message, including the topic, MQTT QoS, and payload, to be
-     *            published
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails to be
-     *             queued
+     * @param message the message, including the topic, MQTT QoS, and payload, to be
+     *                published
+     * @throws AWSIotException the exception thrown if the publish operation fails to be
+     *                         queued
      */
     @Override
     public void publish(AWSIotMessage message) throws AWSIotException {
@@ -778,15 +698,12 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * the operation succeeded, failed, or timed out respectively. The user
      * could override one or more of these functions through subclassing.
      *
-     * @param message
-     *            the message, including the topic, MQTT QoS, and payload, to be
-     *            published
-     * @param timeout
-     *            the timeout in milliseconds for the operation to be considered
-     *            timed out
-     * @throws AWSIotException
-     *             the exception thrown if the publish operation fails to be
-     *             queued
+     * @param message the message, including the topic, MQTT QoS, and payload, to be
+     *                published
+     * @param timeout the timeout in milliseconds for the operation to be considered
+     *                timed out
+     * @throws AWSIotException the exception thrown if the publish operation fails to be
+     *                         queued
      */
     @Override
     public void publish(AWSIotMessage message, long timeout) throws AWSIotException {
@@ -814,13 +731,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @param topic
-     *            the topic to subscribe to
-     * @param blocking
-     *            whether the call should be blocking or non-blocking
-     * @throws AWSIotException
-     *             the exception thrown if the subscribe operation fails
-     *             (blocking) or fails to be queued (non-blocking)
+     * @param topic    the topic to subscribe to
+     * @param blocking whether the call should be blocking or non-blocking
+     * @throws AWSIotException the exception thrown if the subscribe operation fails
+     *                         (blocking) or fails to be queued (non-blocking)
      */
     @Override
     public void subscribe(AWSIotTopic topic, boolean blocking) throws AWSIotException {
@@ -842,21 +756,16 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * for the callback functions in {@link AWSIotTopic} does nothing. The user
      * could override one or more of these functions through subclassing.
      *
-     * @param topic
-     *            the topic to subscribe to
-     * @param timeout
-     *            the timeout in milliseconds for the operation to be considered
-     *            timed out
-     * @param blocking
-     *            whether the call should be blocking or non-blocking
-     * @throws AWSIotException
-     *             the exception thrown if the subscribe operation fails
-     *             (blocking) or fails to be queued (non-blocking)
-     * @throws AWSIotTimeoutException
-     *             the exception thrown if the subscribe operation times out.
-     *             This exception is not thrown if the call is non-blocking;
-     *             {@link AWSIotTopic#onTimeout} will be invoked instead if
-     *             timeout happens.
+     * @param topic    the topic to subscribe to
+     * @param timeout  the timeout in milliseconds for the operation to be considered
+     *                 timed out
+     * @param blocking whether the call should be blocking or non-blocking
+     * @throws AWSIotException        the exception thrown if the subscribe operation fails
+     *                                (blocking) or fails to be queued (non-blocking)
+     * @throws AWSIotTimeoutException the exception thrown if the subscribe operation times out.
+     *                                This exception is not thrown if the call is non-blocking;
+     *                                {@link AWSIotTopic#onTimeout} will be invoked instead if
+     *                                timeout happens.
      */
     @Override
     public void subscribe(AWSIotTopic topic, long timeout, boolean blocking) throws AWSIotException,
@@ -876,11 +785,9 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * for the callback functions in {@link AWSIotTopic} does nothing. The user
      * could override one or more of these functions through sub-classing.
      *
-     * @param topic
-     *            the topic to subscribe to
-     * @throws AWSIotException
-     *             the exception thrown if the subscribe operation fails to be
-     *             queued
+     * @param topic the topic to subscribe to
+     * @throws AWSIotException the exception thrown if the subscribe operation fails to be
+     *                         queued
      */
     @Override
     public void subscribe(AWSIotTopic topic) throws AWSIotException {
@@ -900,14 +807,11 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * {@link AWSIotTopic} does nothing. The user could override one or more of
      * these functions through sub-classing.
      *
-     * @param topic
-     *            the topic to subscribe to
-     * @param timeout
-     *            the timeout in milliseconds for the operation to be considered
-     *            timed out
-     * @throws AWSIotException
-     *             the exception thrown if the subscribe operation fails to be
-     *             queued
+     * @param topic   the topic to subscribe to
+     * @param timeout the timeout in milliseconds for the operation to be considered
+     *                timed out
+     * @throws AWSIotException the exception thrown if the subscribe operation fails to be
+     *                         queued
      */
     @Override
     public void subscribe(AWSIotTopic topic, long timeout) throws AWSIotException {
@@ -924,10 +828,8 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * that expect responses within fixed duration.
      * </p>
      *
-     * @param topic
-     *            the topic to unsubscribe to
-     * @throws AWSIotException
-     *             the exception thrown if the unsubscribe operation fails
+     * @param topic the topic to unsubscribe to
+     * @throws AWSIotException the exception thrown if the unsubscribe operation fails
      */
     @Override
     public void unsubscribe(String topic) throws AWSIotException {
@@ -939,14 +841,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * thread is blocked until the unsubscribe operation completed, failed, or
      * the specified timeout has elapsed.
      *
-     * @param topic
-     *            the topic to unsubscribe to
-     * @param timeout
-     *            the timeout in milliseconds that the calling thread will wait
-     * @throws AWSIotException
-     *             the exception thrown if the unsubscribe operation fails
-     * @throws AWSIotTimeoutException
-     *             the exception thrown if the unsubscribe operation times out
+     * @param topic   the topic to unsubscribe to
+     * @param timeout the timeout in milliseconds that the calling thread will wait
+     * @throws AWSIotException        the exception thrown if the unsubscribe operation fails
+     * @throws AWSIotTimeoutException the exception thrown if the unsubscribe operation times out
      */
     @Override
     public void unsubscribe(String topic, long timeout) throws AWSIotException, AWSIotTimeoutException {
@@ -962,12 +860,10 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * respectively. The default implementation for the callback functions in
      * {@link AWSIotTopic} does nothing. The user could override one or more of
      * these functions through subclassing.
-     * 
-     * @param topic
-     *            the topic to unsubscribe to
-     * @throws AWSIotException
-     *             the exception thrown if the unsubscribe operation fails to be
-     *             queued
+     *
+     * @param topic the topic to unsubscribe to
+     * @throws AWSIotException the exception thrown if the unsubscribe operation fails to be
+     *                         queued
      */
     @Override
     public void unsubscribe(AWSIotTopic topic) throws AWSIotException {
@@ -985,14 +881,11 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * nothing. The user could override one or more of these functions through
      * subclassing.
      *
-     * @param topic
-     *            the topic to unsubscribe to
-     * @param timeout
-     *            the timeout in milliseconds for the operation to be considered
-     *            timed out
-     * @throws AWSIotException
-     *             the exception thrown if the unsubscribe operation fails to be
-     *             queued
+     * @param topic   the topic to unsubscribe to
+     * @param timeout the timeout in milliseconds for the operation to be considered
+     *                timed out
+     * @throws AWSIotException the exception thrown if the unsubscribe operation fails to be
+     *                         queued
      */
     @Override
     public void unsubscribe(AWSIotTopic topic, long timeout) throws AWSIotException {
@@ -1005,10 +898,8 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * using this client and its connection. For more details about how to
      * configure and use a device, please refer to {@link AWSIotDevice}.
      *
-     * @param device
-     *            the device to be attached to the client
-     * @throws AWSIotException
-     *             the exception thrown if the attach operation fails
+     * @param device the device to be attached to the client
+     * @throws AWSIotException the exception thrown if the attach operation fails
      */
     @Override
     public void attach(AWSIotDevice device) throws AWSIotException {
@@ -1020,10 +911,8 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
      * synchronization will be stopped after the device is detached from the
      * client.
      *
-     * @param device
-     *            the device to be detached from the client
-     * @throws AWSIotException
-     *             the exception thrown if the detach operation fails
+     * @param device the device to be detached from the client
+     * @throws AWSIotException the exception thrown if the detach operation fails
      */
     @Override
     public void detach(AWSIotDevice device) throws AWSIotException {
@@ -1075,5 +964,4 @@ public class AWSIotMqttClient extends AbstractAwsIotClient {
     public void onConnectionClosed() {
         super.onConnectionClosed();
     }
-
 }

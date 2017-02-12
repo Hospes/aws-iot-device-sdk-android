@@ -15,25 +15,23 @@
 
 package com.amazonaws.services.iot.client.shadow;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * This is a customized JSON serializer for the Jackson databind module. It is
  * used for serializing the device properties to be reported to the shadow.
  */
 public class AwsIotJsonSerializer extends JsonSerializer<AbstractAwsIotDevice> {
-
     @Override
-    public void serialize(AbstractAwsIotDevice device, JsonGenerator generator, SerializerProvider provider)
-            throws IOException, JsonProcessingException {
+    public void serialize(AbstractAwsIotDevice device, JsonGenerator generator, SerializerProvider provider) throws IOException, JsonProcessingException {
         generator.writeStartObject();
 
         try {
@@ -78,5 +76,4 @@ public class AwsIotJsonSerializer extends JsonSerializer<AbstractAwsIotDevice> {
         }
         return value;
     }
-
 }

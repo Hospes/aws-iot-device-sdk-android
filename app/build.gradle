@@ -20,13 +20,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
 }
 
 dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.8.6'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.6'
-    compile 'org.projectlombok:lombok:1.16.14'
-    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3.test:1.1.0'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     compile 'javax.annotation:javax.annotation-api:1.3'
 }
 

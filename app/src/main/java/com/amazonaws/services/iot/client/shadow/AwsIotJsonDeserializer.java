@@ -15,21 +15,20 @@
 
 package com.amazonaws.services.iot.client.shadow;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * This is a customized JSON deserializer for deserializing the delta update
  * document from the shadow.
  */
 public class AwsIotJsonDeserializer {
-
     public static void deserialize(AbstractAwsIotDevice device, String jsonState) throws IOException {
         ObjectMapper jsonObjectMapper = device.getJsonObjectMapper();
 
@@ -38,7 +37,7 @@ public class AwsIotJsonDeserializer {
             throw new IOException("Invalid delta update received for " + device.getThingName());
         }
 
-        for (Iterator<String> it = node.fieldNames(); it.hasNext();) {
+        for (Iterator<String> it = node.fieldNames(); it.hasNext(); ) {
             String property = it.next();
             Field field = device.getUpdatableProperties().get(property);
             JsonNode fieldNode = node.get(property);
@@ -66,8 +65,7 @@ public class AwsIotJsonDeserializer {
         return versionNode.asLong();
     }
 
-    private static void updateDeviceProperty(ObjectMapper jsonObjectMapper, JsonNode node, AbstractAwsIotDevice device,
-            Field field) throws IOException {
+    private static void updateDeviceProperty(ObjectMapper jsonObjectMapper, JsonNode node, AbstractAwsIotDevice device, Field field) throws IOException {
         Object value = jsonObjectMapper.treeToValue(node, field.getType());
         invokeSetterMethod(device, field.getName(), field.getType(), value);
     }
@@ -88,5 +86,4 @@ public class AwsIotJsonDeserializer {
             throw new IOException(e);
         }
     }
-
 }

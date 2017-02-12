@@ -15,13 +15,16 @@
 
 package com.amazonaws.services.iot.client.util;
 
+import android.os.Build;
+
+import com.amazonaws.services.iot.client.AWSIotException;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
-
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
@@ -31,8 +34,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-
-import com.amazonaws.services.iot.client.AWSIotException;
 
 /**
  * This class extends {@link SSLSocketFactory} to enforce TLS v1.2 to be used
@@ -111,20 +112,27 @@ public class AwsIotTlsSocketFactory extends SSLSocketFactory {
      * Enable TLS 1.2 on any socket created by the underlying SSL Socket
      * Factory.
      *
-     * @param socket
-     *            newly created socket which may not have TLS 1.2 enabled.
+     * @param socket newly created socket which may not have TLS 1.2 enabled.
      * @return TLS 1.2 enabled socket.
      */
     private Socket ensureTls(Socket socket) {
         if (socket != null && (socket instanceof SSLSocket)) {
-            ((SSLSocket) socket).setEnabledProtocols(new String[] { TLS_V_1_2 });
+            ((SSLSocket) socket).setEnabledProtocols(new String[]{TLS_V_1_2});
 
             // Ensure hostname is validated againt the CN in the certificate
             SSLParameters sslParams = new SSLParameters();
-            sslParams.setEndpointIdentificationAlgorithm("HTTPS");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                sslParams.setEndpointIdentificationAlgorithm("HTTPS");
+            } else {
+                try {
+                    sslParams = SSLContext.getDefault().getDefaultSSLParameters();
+                } catch (NoSuchAlgorithmException e) {
+                    //TODO: remove printStackTrace for production
+                    e.printStackTrace();
+                }
+            }
             ((SSLSocket) socket).setSSLParameters(sslParams);
         }
         return socket;
     }
-
 }

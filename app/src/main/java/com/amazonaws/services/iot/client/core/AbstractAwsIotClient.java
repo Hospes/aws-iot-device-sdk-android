@@ -15,15 +15,6 @@
 
 package com.amazonaws.services.iot.client.core;
 
-import java.security.KeyStore;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-
 import com.amazonaws.services.iot.client.AWSIotConfig;
 import com.amazonaws.services.iot.client.AWSIotConnectionStatus;
 import com.amazonaws.services.iot.client.AWSIotDevice;
@@ -34,16 +25,19 @@ import com.amazonaws.services.iot.client.AWSIotTimeoutException;
 import com.amazonaws.services.iot.client.AWSIotTopic;
 import com.amazonaws.services.iot.client.shadow.AbstractAwsIotDevice;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.security.KeyStore;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * The actual implementation of {@code AWSIotMqttClient}.
  */
-@Getter
-@Setter
 public abstract class AbstractAwsIotClient implements AwsIotConnectionCallback {
-
     private static final Logger LOGGER = Logger.getLogger(AbstractAwsIotClient.class.getName());
 
     protected final String clientId;
@@ -78,8 +72,7 @@ public abstract class AbstractAwsIotClient implements AwsIotConnectionCallback {
         }
     }
 
-    protected AbstractAwsIotClient(String clientEndpoint, String clientId, String awsAccessKeyId,
-            String awsSecretAccessKey, String sessionToken) {
+    protected AbstractAwsIotClient(String clientEndpoint, String clientId, String awsAccessKeyId, String awsSecretAccessKey, String sessionToken) {
         this.clientEndpoint = clientEndpoint;
         this.clientId = clientId;
         this.connectionType = AwsIotConnectionType.MQTT_OVER_WEBSOCKET;
@@ -163,8 +156,7 @@ public abstract class AbstractAwsIotClient implements AwsIotConnectionCallback {
         }
     }
 
-    public void publish(String topic, AWSIotQos qos, String payload, long timeout)
-            throws AWSIotException, AWSIotTimeoutException {
+    public void publish(String topic, AWSIotQos qos, String payload, long timeout) throws AWSIotException, AWSIotTimeoutException {
         AwsIotCompletion completion = new AwsIotCompletion(topic, qos, payload, timeout);
         connection.publish(completion);
         completion.get(this);
@@ -187,8 +179,7 @@ public abstract class AbstractAwsIotClient implements AwsIotConnectionCallback {
         }
     }
 
-    public void publish(String topic, AWSIotQos qos, byte[] payload, long timeout)
-            throws AWSIotException, AWSIotTimeoutException {
+    public void publish(String topic, AWSIotQos qos, byte[] payload, long timeout) throws AWSIotException, AWSIotTimeoutException {
         AwsIotCompletion completion = new AwsIotCompletion(topic, qos, payload, timeout);
         connection.publish(completion);
         completion.get(this);
@@ -218,8 +209,7 @@ public abstract class AbstractAwsIotClient implements AwsIotConnectionCallback {
         }
     }
 
-    public void subscribe(AWSIotTopic topic, long timeout, boolean blocking)
-            throws AWSIotException, AWSIotTimeoutException {
+    public void subscribe(AWSIotTopic topic, long timeout, boolean blocking) throws AWSIotException, AWSIotTimeoutException {
         _subscribe(topic, timeout, !blocking);
     }
 
@@ -236,8 +226,7 @@ public abstract class AbstractAwsIotClient implements AwsIotConnectionCallback {
         }
     }
 
-    private void _subscribe(AWSIotTopic topic, long timeout, boolean async)
-            throws AWSIotException, AWSIotTimeoutException {
+    private void _subscribe(AWSIotTopic topic, long timeout, boolean async) throws AWSIotException, AWSIotTimeoutException {
         AwsIotCompletion completion = new AwsIotCompletion(topic, timeout, async);
         connection.subscribe(completion);
         completion.get(this);
@@ -436,4 +425,92 @@ public abstract class AbstractAwsIotClient implements AwsIotConnectionCallback {
         return executionService.scheduleAtFixedRate(runnable, initialDelay, period, TimeUnit.MILLISECONDS);
     }
 
+
+    //region Getters
+    public String getClientId() {
+        return clientId;
+    }
+
+    public String getClientEndpoint() {
+        return clientEndpoint;
+    }
+
+    public AwsIotConnection getConnection() {
+        return connection;
+    }
+
+    public int getBaseRetryDelay() {
+        return baseRetryDelay;
+    }
+
+    public int getMaxRetryDelay() {
+        return maxRetryDelay;
+    }
+
+    public int getMaxOfflineQueueSize() {
+        return maxOfflineQueueSize;
+    }
+
+    public int getMaxConnectionRetries() {
+        return maxConnectionRetries;
+    }
+
+    public int getConnectionTimeout() {
+        return connectionTimeout;
+    }
+
+    public int getKeepAliveInterval() {
+        return keepAliveInterval;
+    }
+
+    public int getServerAckTimeout() {
+        return serverAckTimeout;
+    }
+
+    public int getNumOfClientThreads() {
+        return numOfClientThreads;
+    }
+
+    public AWSIotMessage getWillMessage() {
+        return willMessage;
+    }
+    //endregion
+
+    //region Setters
+    public void setNumOfClientThreads(int numOfClientThreads) {
+        this.numOfClientThreads = numOfClientThreads;
+    }
+
+    public void setConnectionTimeout(int connectionTimeout) {
+        this.connectionTimeout = connectionTimeout;
+    }
+
+    public void setMaxConnectionRetries(int maxConnectionRetries) {
+        this.maxConnectionRetries = maxConnectionRetries;
+    }
+
+    public void setBaseRetryDelay(int baseRetryDelay) {
+        this.baseRetryDelay = baseRetryDelay;
+    }
+
+    public void setMaxRetryDelay(int maxRetryDelay) {
+        this.maxRetryDelay = maxRetryDelay;
+    }
+
+    public void setMaxOfflineQueueSize(int maxOfflineQueueSize) {
+        this.maxOfflineQueueSize = maxOfflineQueueSize;
+    }
+
+    public void setServerAckTimeout(int serverAckTimeout) {
+        this.serverAckTimeout = serverAckTimeout;
+    }
+
+    public void setKeepAliveInterval(int keepAliveInterval) {
+        this.keepAliveInterval = keepAliveInterval;
+    }
+
+    public void setWillMessage(AWSIotMessage willMessage) {
+        this.willMessage = willMessage;
+    }
+    //endregion
 }

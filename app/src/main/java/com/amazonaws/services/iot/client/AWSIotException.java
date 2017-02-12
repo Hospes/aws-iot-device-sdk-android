@@ -15,9 +15,6 @@
 
 package com.amazonaws.services.iot.client;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * This is a generic exception that can be thrown in most of the APIs, blocking
  * and non-blocking, by the library.
@@ -34,15 +31,12 @@ public class AWSIotException extends Exception {
      * @param errorCode the new error code for the shadow method exception
      * @return the error code of the shadow method exception
      */
-    @Getter
-    @Setter
     private AWSIotDeviceErrorCode errorCode;
 
     /**
      * Instantiates a new exception object.
      *
-     * @param message
-     *            the error message
+     * @param message the error message
      */
     public AWSIotException(String message) {
         super(message);
@@ -51,10 +45,8 @@ public class AWSIotException extends Exception {
     /**
      * Instantiates a new exception object.
      *
-     * @param errorCode
-     *            the error code
-     * @param message
-     *            the error message
+     * @param errorCode the error code
+     * @param message   the error message
      */
     public AWSIotException(AWSIotDeviceErrorCode errorCode, String message) {
         super(message);
@@ -64,12 +56,21 @@ public class AWSIotException extends Exception {
     /**
      * Instantiates a new exception object.
      *
-     * @param cause
-     *            the cause. A null value is permitted, and indicates that the
-     *            cause is nonexistent or unknown.
+     * @param cause the cause. A null value is permitted, and indicates that the
+     *              cause is nonexistent or unknown.
      */
     public AWSIotException(Throwable cause) {
         super(cause);
     }
 
+
+    //region Getters and Setters
+    public AWSIotDeviceErrorCode getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(AWSIotDeviceErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
+    //endregion
 }

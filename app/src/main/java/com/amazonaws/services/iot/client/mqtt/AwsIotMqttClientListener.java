@@ -28,12 +28,13 @@ import com.amazonaws.services.iot.client.core.AbstractAwsIotClient;
  * Paho MQTT library.
  */
 public class AwsIotMqttClientListener implements MqttCallback {
-
     private AbstractAwsIotClient client;
+
 
     public AwsIotMqttClientListener(AbstractAwsIotClient client) {
         this.client = client;
     }
+
 
     @Override
     public void connectionLost(Throwable arg0) {
@@ -55,5 +56,4 @@ public class AwsIotMqttClientListener implements MqttCallback {
         AWSIotMessage message = new AWSIotMessage(topic, AWSIotQos.valueOf(arg1.getQos()), arg1.getPayload());
         client.dispatch(message);
     }
-
 }

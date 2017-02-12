@@ -15,17 +15,14 @@
 
 package com.amazonaws.services.iot.client.core;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.amazonaws.services.iot.client.AWSIotConnectionStatus;
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMessage;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class provides an abstract layer for the library to communicate with the
@@ -34,7 +31,6 @@ import lombok.Setter;
  * well as offline message queuing.
  */
 public abstract class AwsIotConnection implements AwsIotConnectionCallback {
-
     private static final Logger LOGGER = Logger.getLogger(AwsIotConnection.class.getName());
 
     /**
@@ -42,34 +38,29 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
      *
      * @return the current client
      */
-    @Getter
     protected AbstractAwsIotClient client;
 
     /**
      * The connection status.
-     * 
+     *
      * @param connectionStatus
-     *            the new connection status
+     * the new connection status
      * @return the current connection status
      */
-    @Getter
-    @Setter
     protected AWSIotConnectionStatus connectionStatus = AWSIotConnectionStatus.DISCONNECTED;
 
     /**
      * The future object holding the retry task.
-     * 
+     *
      * @return the current retry task
      */
-    @Getter
     private Future<?> retryTask;
 
     /**
      * The retry times.
-     * 
+     *
      * @return the current retry times
      */
-    @Getter
     private int retryTimes;
 
     /**
@@ -77,7 +68,6 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
      *
      * @return the current connect callback
      */
-    @Getter
     private AwsIotMessageCallback connectCallback;
 
     /**
@@ -85,118 +75,100 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
      *
      * @return the current user disconnect flag
      */
-    @Getter
     private boolean userDisconnect;
 
     /**
      * The offline publish queue holding messages while the connection is being
      * established.
-     * 
+     *
      * @return the current offline publish queue
      */
-    @Getter
     private ConcurrentLinkedQueue<AWSIotMessage> publishQueue = new ConcurrentLinkedQueue<>();
 
     /**
      * The offline subscribe request queue holding messages while the connection
      * is being established.
-     * 
+     *
      * @return the current offline subscribe request queue
      */
-    @Getter
     private ConcurrentLinkedQueue<AWSIotMessage> subscribeQueue = new ConcurrentLinkedQueue<>();
 
     /**
      * The offline unsubscribe request queue holding messages while the
      * connection is being established.
-     * 
+     *
      * @return the current offline unsubscribe request queue
      */
-    @Getter
     private ConcurrentLinkedQueue<AWSIotMessage> unsubscribeQueue = new ConcurrentLinkedQueue<>();
+
 
     /**
      * Instantiates a new connection object.
      *
-     * @param client
-     *            the client
+     * @param client the client
      */
     public AwsIotConnection(AbstractAwsIotClient client) {
         this.client = client;
     }
 
+
     /**
      * Abstract method which is called to establish an underneath connection.
      *
-     * @param callback
-     *            connection callback functions
-     * @throws AWSIotException
-     *             this exception is thrown when the request is failed to be
-     *             sent
+     * @param callback connection callback functions
+     * @throws AWSIotException this exception is thrown when the request is failed to be
+     *                         sent
      */
     protected abstract void openConnection(AwsIotMessageCallback callback) throws AWSIotException;
 
     /**
      * Abstract method which is called to terminate an underneath connection.
      *
-     * @param callback
-     *            connection callback functions
-     * @throws AWSIotException
-     *             this exception is thrown when the request is failed to be
-     *             sent
+     * @param callback connection callback functions
+     * @throws AWSIotException this exception is thrown when the request is failed to be
+     *                         sent
      */
     protected abstract void closeConnection(AwsIotMessageCallback callback) throws AWSIotException;
 
     /**
      * Abstract method which is called to publish a message.
      *
-     * @param message
-     *            the message to be published
-     * @throws AWSIotException
-     *             this exception is thrown when there's an unrecoverable error
-     *             happened while processing the request
-     * @throws AwsIotRetryableException
-     *             this exception is thrown when the request is failed to be
-     *             sent, which will be queued and retried
+     * @param message the message to be published
+     * @throws AWSIotException          this exception is thrown when there's an unrecoverable error
+     *                                  happened while processing the request
+     * @throws AwsIotRetryableException this exception is thrown when the request is failed to be
+     *                                  sent, which will be queued and retried
      */
     protected abstract void publishMessage(AWSIotMessage message) throws AWSIotException, AwsIotRetryableException;
 
     /**
      * Abstract method which is called to subscribe to a topic.
      *
-     * @param message
-     *            the topic to be subscribed to
-     * @throws AWSIotException
-     *             this exception is thrown when there's an unrecoverable error
-     *             happened while processing the request
-     * @throws AwsIotRetryableException
-     *             this exception is thrown when the request is failed to be
-     *             sent, which will be queued and retried
+     * @param message the topic to be subscribed to
+     * @throws AWSIotException          this exception is thrown when there's an unrecoverable error
+     *                                  happened while processing the request
+     * @throws AwsIotRetryableException this exception is thrown when the request is failed to be
+     *                                  sent, which will be queued and retried
      */
     protected abstract void subscribeTopic(AWSIotMessage message) throws AWSIotException, AwsIotRetryableException;
 
     /**
      * Abstract method which is called to unsubscribe to a topic.
      *
-     * @param message
-     *            the topic to be unsubscribed to
-     * @throws AWSIotException
-     *             this exception is thrown when there's an unrecoverable error
-     *             happened while processing the request
-     * @throws AwsIotRetryableException
-     *             this exception is thrown when the request is failed to be
-     *             sent, which will be queued and retried
+     * @param message the topic to be unsubscribed to
+     * @throws AWSIotException          this exception is thrown when there's an unrecoverable error
+     *                                  happened while processing the request
+     * @throws AwsIotRetryableException this exception is thrown when the request is failed to be
+     *                                  sent, which will be queued and retried
      */
     protected abstract void unsubscribeTopic(AWSIotMessage message) throws AWSIotException, AwsIotRetryableException;
 
     /**
      * The actual publish method exposed by this class.
      *
-     * @param message
-     *            the message to be published
-     * @throws AWSIotException
-     *             this exception is thrown when the underneath failed to
-     *             process the request
+     * @param message the message to be published
+     * @throws AWSIotException this exception is thrown when the underneath failed to
+     *                         process the request
      */
     public void publish(AWSIotMessage message) throws AWSIotException {
         try {
@@ -215,13 +187,10 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
      * Updates credentials for the connection, which will be used for new
      * connections.
      *
-     * @param awsAccessKeyId
-     *            the AWS access key id
-     * @param awsSecretAccessKey
-     *            the AWS secret access key
-     * @param sessionToken
-     *            Session token received along with the temporary credentials
-     *            from services like STS server, AssumeRole, or Amazon Cognito.
+     * @param awsAccessKeyId     the AWS access key id
+     * @param awsSecretAccessKey the AWS secret access key
+     * @param sessionToken       Session token received along with the temporary credentials
+     *                           from services like STS server, AssumeRole, or Amazon Cognito.
      */
     public void updateCredentials(String awsAccessKeyId, String awsSecretAccessKey, String sessionToken) {
         // default implementation does nothing
@@ -230,11 +199,9 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
     /**
      * The actual subscribe method exposed by this class.
      *
-     * @param message
-     *            the topic to be subscribed to
-     * @throws AWSIotException
-     *             this exception is thrown when the underneath failed to
-     *             process the request
+     * @param message the topic to be subscribed to
+     * @throws AWSIotException this exception is thrown when the underneath failed to
+     *                         process the request
      */
     public void subscribe(AWSIotMessage message) throws AWSIotException {
         try {
@@ -253,11 +220,9 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
     /**
      * The actual unsubscribe method exposed by this class.
      *
-     * @param message
-     *            the topic to be unsubscribed to
-     * @throws AWSIotException
-     *             this exception is thrown when the underneath failed to
-     *             process the request
+     * @param message the topic to be unsubscribed to
+     * @throws AWSIotException this exception is thrown when the underneath failed to
+     *                         process the request
      */
     public void unsubscribe(AWSIotMessage message) throws AWSIotException {
         try {
@@ -276,11 +241,9 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
     /**
      * The actual connect method exposed by this class.
      *
-     * @param callback
-     *            user callback functions
-     * @throws AWSIotException
-     *             this exception is thrown when the underneath layer failed to
-     *             process the request
+     * @param callback user callback functions
+     * @throws AWSIotException this exception is thrown when the underneath layer failed to
+     *                         process the request
      */
     public void connect(AwsIotMessageCallback callback) throws AWSIotException {
         cancelRetry();
@@ -294,12 +257,10 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
 
     /**
      * The actual disconnect method exposed by this class.
-     * 
-     * @param callback
-     *            user callback functions
-     * @throws AWSIotException
-     *             this exception is thrown when the underneath layer failed to
-     *             process the request
+     *
+     * @param callback user callback functions
+     * @throws AWSIotException this exception is thrown when the underneath layer failed to
+     *                         process the request
      */
     public void disconnect(AwsIotMessageCallback callback) throws AWSIotException {
         cancelRetry();
@@ -467,4 +428,48 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
         }, getRetryDelay());
     }
 
+
+    //region Getters
+    public AbstractAwsIotClient getClient() {
+        return client;
+    }
+
+    public Future<?> getRetryTask() {
+        return retryTask;
+    }
+
+    public int getRetryTimes() {
+        return retryTimes;
+    }
+
+    public AwsIotMessageCallback getConnectCallback() {
+        return connectCallback;
+    }
+
+    public AWSIotConnectionStatus getConnectionStatus() {
+        return connectionStatus;
+    }
+
+    public boolean isUserDisconnect() {
+        return userDisconnect;
+    }
+
+    public ConcurrentLinkedQueue<AWSIotMessage> getPublishQueue() {
+        return publishQueue;
+    }
+
+    public ConcurrentLinkedQueue<AWSIotMessage> getSubscribeQueue() {
+        return subscribeQueue;
+    }
+
+    public ConcurrentLinkedQueue<AWSIotMessage> getUnsubscribeQueue() {
+        return unsubscribeQueue;
+    }
+    //endregion
+
+    //region Setters
+    public void setConnectionStatus(AWSIotConnectionStatus connectionStatus) {
+        this.connectionStatus = connectionStatus;
+    }
+    //endregion
 }

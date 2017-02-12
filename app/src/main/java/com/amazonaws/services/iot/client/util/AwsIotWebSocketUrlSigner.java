@@ -15,6 +15,8 @@
 
 package com.amazonaws.services.iot.client.util;
 
+import com.amazonaws.services.iot.client.AWSIotException;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
@@ -22,14 +24,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
-import com.amazonaws.services.iot.client.AWSIotException;
 
 /**
  * The AWSIotWebSocketUrlSigner class creates the SigV4 signature and builds a
@@ -73,15 +74,14 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Instantiates a new URL signer instance with endpoint only.
      *
-     * @param endpoint
-     *            service endpoint with or without customer specific URL prefix.
+     * @param endpoint service endpoint with or without customer specific URL prefix.
      */
     public AwsIotWebSocketUrlSigner(String endpoint) {
         if (endpoint == null) {
             throw new IllegalArgumentException("Invalid endpoint provided");
         }
 
-        this.endpoint = endpoint.trim().toLowerCase();
+        this.endpoint = endpoint.trim().toLowerCase(Locale.getDefault());
         this.regionName = getRegionFromEndpoint(this.endpoint);
         if (this.regionName == null) {
             throw new IllegalArgumentException("Could not extract region from endpoint provided");
@@ -91,17 +91,13 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Instantiates a new URL signer instance with endpoint and credentials.
      *
-     * @param endpoint
-     *            service endpoint with or without customer specific URL prefix.
-     * @param awsAccessKeyId
-     *            AWS access key ID used in SigV4 signature algorithm.
-     * @param awsSecretAccessKey
-     *            AWS secret access key used in SigV4 signature algorithm.
-     * @param sessionToken
-     *            Session token for temporary credentials.
+     * @param endpoint           service endpoint with or without customer specific URL prefix.
+     * @param awsAccessKeyId     AWS access key ID used in SigV4 signature algorithm.
+     * @param awsSecretAccessKey AWS secret access key used in SigV4 signature algorithm.
+     * @param sessionToken       Session token for temporary credentials.
      */
     public AwsIotWebSocketUrlSigner(String endpoint, String awsAccessKeyId, String awsSecretAccessKey,
-            String sessionToken) {
+                                    String sessionToken) {
         this(endpoint);
 
         updateCredentials(awsAccessKeyId, awsSecretAccessKey, sessionToken);
@@ -110,12 +106,9 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Updates the signing credentials.
      *
-     * @param awsAccessKeyId
-     *            AWS access key ID used in SigV4 signature algorithm.
-     * @param awsSecretAccessKey
-     *            AWS secret access key used in SigV4 signature algorithm.
-     * @param sessionToken
-     *            Session token for temporary credentials.
+     * @param awsAccessKeyId     AWS access key ID used in SigV4 signature algorithm.
+     * @param awsSecretAccessKey AWS secret access key used in SigV4 signature algorithm.
+     * @param sessionToken       Session token for temporary credentials.
      */
     public void updateCredentials(String awsAccessKeyId, String awsSecretAccessKey, String sessionToken) {
         if (awsAccessKeyId == null || awsSecretAccessKey == null) {
@@ -144,13 +137,11 @@ public class AwsIotWebSocketUrlSigner {
      * Given the signing date return a signed connection URL to be used when
      * connecting via WebSocket to AWS IoT.
      *
-     * @param signingDate
-     *            time value to be used in SigV4 calculations. System current
-     *            time will be used if null.
+     * @param signingDate time value to be used in SigV4 calculations. System current
+     *                    time will be used if null.
      * @return a URL with SigV4 signature formatted to be used with AWS IoT.
-     * @throws AWSIotException
-     *             Exception thrown when signed URL can be generated with given
-     *             information.
+     * @throws AWSIotException Exception thrown when signed URL can be generated with given
+     *                         information.
      */
     public String getSignedUrl(final Date signingDate) throws AWSIotException {
         Date dateToUse = signingDate;
@@ -222,8 +213,7 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Converts byte data to a Hex-encoded string.
      *
-     * @param data
-     *            data to hex encode.
+     * @param data data to hex encode.
      * @return hex-encoded string.
      */
     private String stringToHex(final byte[] data) {
@@ -239,15 +229,14 @@ public class AwsIotWebSocketUrlSigner {
             }
             sb.append(hex);
         }
-        return sb.toString().toLowerCase();
+        return sb.toString().toLowerCase(Locale.getDefault());
     }
 
     /**
      * The SigV4 signing key is made up by consecutively hashing a number of
      * unique pieces of data.
-     * 
-     * @param dateStamp
-     *            the current date in short date format.
+     *
+     * @param dateStamp the current date in short date format.
      * @return byte array containing the SigV4 signing key.
      * @throws AWSIotException
      */
@@ -266,13 +255,12 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Given the input epoch time returns a String of the proper format for the
      * ISO 8601 date + time in SigV4 parameters.
-     * 
-     * @param date
-     *            desired date.
+     *
+     * @param date desired date.
      * @return date formatted string in ISO 8601 date + time format.
      */
     private String getAmzDate(final Date date) {
-        SimpleDateFormat fomatter = new SimpleDateFormat(TIME_PATTERN);
+        SimpleDateFormat fomatter = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
         fomatter.setTimeZone(TIME_ZONE);
         return fomatter.format(date);
     }
@@ -280,13 +268,12 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Given the input epoch time returns a String of the proper format for the
      * short date in SigV4 parameters.
-     * 
-     * @param date
-     *            desired date.
+     *
+     * @param date desired date.
      * @return date formatted string in short date format.
      */
     private String getDateStamp(final Date date) {
-        SimpleDateFormat fomatter = new SimpleDateFormat(DATE_PATTERN);
+        SimpleDateFormat fomatter = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault());
         fomatter.setTimeZone(TIME_ZONE);
         return fomatter.format(date);
     }
@@ -295,11 +282,9 @@ public class AwsIotWebSocketUrlSigner {
      * Hashes the string contents (assumed to be UTF-8) using the SHA-256
      * algorithm.
      *
-     * @param text
-     *            The string to hash.
+     * @param text The string to hash.
      * @return The hashed bytes from the specified string.
-     * @throws AmazonClientException
-     *             If the hash cannot be computed.
+     * @throws AmazonClientException If the hash cannot be computed.
      */
     private byte[] hash(String text) throws AWSIotException {
         try {
@@ -314,13 +299,10 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Sign the given string with the key provided.
      *
-     * @param stringData
-     *            String to be signed.
-     * @param key
-     *            the key for signing.
+     * @param stringData String to be signed.
+     * @param key        the key for signing.
      * @return a byte array containing the signed string.
-     * @throws AmazonClientException
-     *             in the case of a signature error.
+     * @throws AmazonClientException in the case of a signature error.
      */
     private byte[] sign(String stringData, final byte[] key) throws AWSIotException {
         try {
@@ -336,13 +318,10 @@ public class AwsIotWebSocketUrlSigner {
     /**
      * Sign the given data with the key provided.
      *
-     * @param stringData
-     *            String to be signed.
-     * @param mac
-     *            the signing algorithm with key initialized.
+     * @param stringData String to be signed.
+     * @param mac        the signing algorithm with key initialized.
      * @return a byte array containing the signed string.
-     * @throws AmazonClientException
-     *             in the case of a signature error.
+     * @throws AmazonClientException in the case of a signature error.
      */
     private byte[] sign(String stringData, final Mac mac) throws AWSIotException {
         try {
@@ -352,5 +331,4 @@ public class AwsIotWebSocketUrlSigner {
             throw new AWSIotException("Unable to calculate a request signature: " + e.getMessage());
         }
     }
-
 }

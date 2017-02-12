@@ -67,5 +67,4 @@ public class AWSIotTopic extends AWSIotMessage implements AwsIotTopicCallback {
     public void onMessage(AWSIotMessage message) {
         // Default callback implementation is no-op
     }
-
 }

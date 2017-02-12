@@ -15,18 +15,6 @@
 
 package com.amazonaws.services.iot.client.shadow;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.amazonaws.services.iot.client.AWSIotDeviceErrorCode;
 import com.amazonaws.services.iot.client.AWSIotException;
 import com.amazonaws.services.iot.client.AWSIotMessage;
@@ -36,8 +24,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class manages the commands sent to the shadow. It maintains a list of
@@ -45,10 +43,7 @@ import lombok.Setter;
  * receiving the shadow response for a command, it will notify therefore resume
  * the execution of the caller.
  */
-@Getter
-@Setter
 public class AwsIotDeviceCommandManager {
-
     private static final Logger LOGGER = Logger.getLogger(AwsIotDeviceCommandManager.class.getName());
 
     private static final String TOPIC_PREFIX = "$aws/things/?/shadow";
@@ -116,8 +111,7 @@ public class AwsIotDeviceCommandManager {
         }
     }
 
-    public String runCommandSync(Command command, AWSIotMessage request, long commandTimeout) throws AWSIotException,
-            AWSIotTimeoutException {
+    public String runCommandSync(Command command, AWSIotMessage request, long commandTimeout) throws AWSIotException, AWSIotTimeoutException {
         return runCommand(command, request, commandTimeout, false);
     }
 
@@ -130,8 +124,7 @@ public class AwsIotDeviceCommandManager {
         }
     }
 
-    public String runCommand(Command command, AWSIotMessage request, long commandTimeout, boolean isAsync)
-            throws AWSIotException, AWSIotTimeoutException {
+    public String runCommand(Command command, AWSIotMessage request, long commandTimeout, boolean isAsync) throws AWSIotException, AWSIotTimeoutException {
         String commandId = newCommandId();
         appendCommandId(request, commandId);
 
@@ -168,7 +161,7 @@ public class AwsIotDeviceCommandManager {
         boolean success = response.getTopic().endsWith(COMMAND_ACK_PATHS.get(CommandAck.ACCEPTED));
         if (!success
                 && (Command.DELETE.equals(command.getCommand()) && AWSIotDeviceErrorCode.NOT_FOUND.equals(command
-                        .getErrorCode()))) {
+                .getErrorCode()))) {
             // Ignore empty document error (NOT_FOUND) for delete command
             success = true;
         }
@@ -259,7 +252,7 @@ public class AwsIotDeviceCommandManager {
         Matcher matcher = commandPattern.matcher(topic);
         if (matcher.find()) {
             String name = matcher.group(1);
-            return Command.valueOf(name.toUpperCase());
+            return Command.valueOf(name.toUpperCase(Locale.getDefault()));
         }
         return null;
     }
@@ -325,5 +318,4 @@ public class AwsIotDeviceCommandManager {
     private String newCommandId() {
         return UUID.randomUUID().toString();
     }
-
 }
