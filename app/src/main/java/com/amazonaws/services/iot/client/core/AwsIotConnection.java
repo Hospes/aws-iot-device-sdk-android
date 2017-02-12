@@ -33,72 +33,14 @@ import java.util.logging.Logger;
 public abstract class AwsIotConnection implements AwsIotConnectionCallback {
     private static final Logger LOGGER = Logger.getLogger(AwsIotConnection.class.getName());
 
-    /**
-     * The client the connection is associated with.
-     *
-     * @return the current client
-     */
     protected AbstractAwsIotClient client;
-
-    /**
-     * The connection status.
-     *
-     * @param connectionStatus
-     * the new connection status
-     * @return the current connection status
-     */
     protected AWSIotConnectionStatus connectionStatus = AWSIotConnectionStatus.DISCONNECTED;
-
-    /**
-     * The future object holding the retry task.
-     *
-     * @return the current retry task
-     */
     private Future<?> retryTask;
-
-    /**
-     * The retry times.
-     *
-     * @return the current retry times
-     */
     private int retryTimes;
-
-    /**
-     * The callback functions for the connect request.
-     *
-     * @return the current connect callback
-     */
     private AwsIotMessageCallback connectCallback;
-
-    /**
-     * Flag to indicate user disconnect is in progress.
-     *
-     * @return the current user disconnect flag
-     */
     private boolean userDisconnect;
-
-    /**
-     * The offline publish queue holding messages while the connection is being
-     * established.
-     *
-     * @return the current offline publish queue
-     */
     private ConcurrentLinkedQueue<AWSIotMessage> publishQueue = new ConcurrentLinkedQueue<>();
-
-    /**
-     * The offline subscribe request queue holding messages while the connection
-     * is being established.
-     *
-     * @return the current offline subscribe request queue
-     */
     private ConcurrentLinkedQueue<AWSIotMessage> subscribeQueue = new ConcurrentLinkedQueue<>();
-
-    /**
-     * The offline unsubscribe request queue holding messages while the
-     * connection is being established.
-     *
-     * @return the current offline unsubscribe request queue
-     */
     private ConcurrentLinkedQueue<AWSIotMessage> unsubscribeQueue = new ConcurrentLinkedQueue<>();
 
 
@@ -430,44 +372,99 @@ public abstract class AwsIotConnection implements AwsIotConnectionCallback {
 
 
     //region Getters
+
+    /**
+     * The client the connection is associated with.
+     *
+     * @return the current client
+     */
     public AbstractAwsIotClient getClient() {
         return client;
     }
 
+    /**
+     * The future object holding the retry task.
+     *
+     * @return the current retry task
+     */
     public Future<?> getRetryTask() {
         return retryTask;
     }
 
+    /**
+     * The retry times.
+     *
+     * @return the current retry times
+     */
     public int getRetryTimes() {
         return retryTimes;
     }
 
+    /**
+     * The callback functions for the connect request.
+     *
+     * @return the current connect callback
+     */
     public AwsIotMessageCallback getConnectCallback() {
         return connectCallback;
     }
 
+    /**
+     * The connection status.
+     *
+     * @return the current connection status
+     */
     public AWSIotConnectionStatus getConnectionStatus() {
         return connectionStatus;
     }
 
+    /**
+     * Flag to indicate user disconnect is in progress.
+     *
+     * @return the current user disconnect flag
+     */
     public boolean isUserDisconnect() {
         return userDisconnect;
     }
 
+    /**
+     * The offline publish queue holding messages while the connection is being
+     * established.
+     *
+     * @return the current offline publish queue
+     */
     public ConcurrentLinkedQueue<AWSIotMessage> getPublishQueue() {
         return publishQueue;
     }
 
+    /**
+     * The offline subscribe request queue holding messages while the connection
+     * is being established.
+     *
+     * @return the current offline subscribe request queue
+     */
     public ConcurrentLinkedQueue<AWSIotMessage> getSubscribeQueue() {
         return subscribeQueue;
     }
 
+    /**
+     * The offline unsubscribe request queue holding messages while the
+     * connection is being established.
+     *
+     * @return the current offline unsubscribe request queue
+     */
     public ConcurrentLinkedQueue<AWSIotMessage> getUnsubscribeQueue() {
         return unsubscribeQueue;
     }
     //endregion
 
     //region Setters
+
+    /**
+     * The connection status.
+     *
+     * @param connectionStatus the new connection status
+     */
     public void setConnectionStatus(AWSIotConnectionStatus connectionStatus) {
         this.connectionStatus = connectionStatus;
     }

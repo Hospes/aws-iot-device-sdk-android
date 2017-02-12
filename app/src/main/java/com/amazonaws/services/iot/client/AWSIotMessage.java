@@ -35,20 +35,7 @@ import java.io.UnsupportedEncodingException;
  * class or its child classes, such as {@link AWSIotTopic}.
  */
 public class AWSIotMessage implements AwsIotMessageCallback {
-    /**
-     * The topic the message is received from or published to.
-     *
-     * @param topic the new topic of the message
-     * @return the current topic of the message
-     */
     protected String topic;
-
-    /**
-     * The MQTT QoS level for the message.
-     *
-     * @param qos the new QoS level
-     * @return the current QoS level
-     */
     protected AWSIotQos qos;
 
     /**
@@ -56,23 +43,9 @@ public class AWSIotMessage implements AwsIotMessageCallback {
      */
     protected byte[] payload;
 
-    /**
-     * Error code for shadow methods. It's only applicable to messages returned
-     * by those shadow method APIs.
-     *
-     * @param errorCode the new error code for the shadow method
-     * @return the current error code of the shadow method
-     */
     protected AWSIotDeviceErrorCode errorCode;
-
-    /**
-     * Error message for shadow methods. It's only applicable to messages
-     * returned by those shadow method APIs.
-     *
-     * @param errorMessage the new error message for the shadow method
-     * @return the current error message of the shadow method
-     */
     protected String errorMessage;
+
 
     /**
      * Instantiates a new message object.
@@ -110,6 +83,7 @@ public class AWSIotMessage implements AwsIotMessageCallback {
         this.qos = qos;
         setStringPayload(payload);
     }
+
 
     /**
      * Gets the byte array payload.
@@ -203,34 +177,79 @@ public class AWSIotMessage implements AwsIotMessageCallback {
 
 
     //region Getters and Setters
+
+    /**
+     * The topic the message is received from or published to.
+     *
+     * @return the current topic of the message
+     */
     public String getTopic() {
         return topic;
     }
 
+    /**
+     * The topic the message is received from or published to.
+     *
+     * @param topic the new topic of the message
+     */
     public void setTopic(String topic) {
         this.topic = topic;
     }
 
+    /**
+     * The MQTT QoS level for the message.
+     *
+     * @return the current QoS level
+     */
     public AWSIotQos getQos() {
         return qos;
     }
 
+    /**
+     * The MQTT QoS level for the message.
+     *
+     * @param qos the new QoS level
+     */
     public void setQos(AWSIotQos qos) {
         this.qos = qos;
     }
 
+    /**
+     * Error code for shadow methods. It's only applicable to messages returned
+     * by those shadow method APIs.
+     *
+     * @return the current error code of the shadow method
+     */
     public AWSIotDeviceErrorCode getErrorCode() {
         return errorCode;
     }
 
+    /**
+     * Error code for shadow methods. It's only applicable to messages returned
+     * by those shadow method APIs.
+     *
+     * @param errorCode the new error code for the shadow method
+     */
     public void setErrorCode(AWSIotDeviceErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 
+    /**
+     * Error message for shadow methods. It's only applicable to messages
+     * returned by those shadow method APIs.
+     *
+     * @return the current error message of the shadow method
+     */
     public String getErrorMessage() {
         return errorMessage;
     }
 
+    /**
+     * Error message for shadow methods. It's only applicable to messages
+     * returned by those shadow method APIs.
+     *
+     * @param errorMessage the new error message for the shadow method
+     */
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }

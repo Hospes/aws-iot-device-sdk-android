@@ -24,14 +24,8 @@ public class AWSIotException extends Exception {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Error code for shadow methods. It's only applicable to exceptions thrown
-     * by those shadow method APIs.
-     *
-     * @param errorCode the new error code for the shadow method exception
-     * @return the error code of the shadow method exception
-     */
     private AWSIotDeviceErrorCode errorCode;
+
 
     /**
      * Instantiates a new exception object.
@@ -65,10 +59,23 @@ public class AWSIotException extends Exception {
 
 
     //region Getters and Setters
+
+    /**
+     * Error code for shadow methods. It's only applicable to exceptions thrown
+     * by those shadow method APIs.
+     *
+     * @return the error code of the shadow method exception
+     */
     public AWSIotDeviceErrorCode getErrorCode() {
         return errorCode;
     }
 
+    /**
+     * Error code for shadow methods. It's only applicable to exceptions thrown
+     * by those shadow method APIs.
+     *
+     * @param errorCode the new error code for the shadow method exception
+     */
     public void setErrorCode(AWSIotDeviceErrorCode errorCode) {
         this.errorCode = errorCode;
     }
